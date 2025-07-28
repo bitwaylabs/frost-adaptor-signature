@@ -1,11 +1,11 @@
 [package]
 name = "frost-adaptor-signature"
 version = "2.1.0-rc.1"
-authors = ["SIDE Protocol <luis@side.one>"]
+authors = ["SIDE Protocol <luis@bitway.com>"]
 edition = "2021"
 description = "A Schnorr adaptor signature scheme over the secp256k1 curve that supports FROST and Taproot."
 readme = "README.md"
-repository = "https://github.com/sideprotocol/frost-adaptor-signature.git"
+repository = "https://github.com/bitwaylabs/frost-adaptor-signature.git"
 license = "MIT OR Apache-2.0"
 
 [dependencies]

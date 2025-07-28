@@ -9,7 +9,7 @@ pub use frost_secp256k1_tr::{
     aggregate, aggregate_with_tweak,
 };
 
-use k256::{elliptic_curve::ops::MulByGenerator, ProjectivePoint, Scalar};
+use k256::Scalar;
 
 pub mod keys {
     // pub use frost_core::keys::*;
