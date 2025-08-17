@@ -285,7 +285,7 @@ pub fn aggregate_with_group_commitment(
         return Err(Error::UnknownIdentifier);
     }
 
-    let (_signing_package, signature_shares, _pubkeys) =
+    let (_signing_package, signature_shares, _) =
         Secp256K1Sha256TR::pre_aggregate(signing_package, signature_shares, pubkeys)?;
 
     // The aggregation of the signature shares by summing them up, resulting in
@@ -301,6 +301,9 @@ pub fn aggregate_with_group_commitment(
     }
 
     let signature = Signature::new(group_commitment.to_element(), z);
+
+    // Verify the aggregate signature
+    pubkeys.verifying_key().verify(signing_package.message(), &signature)?;
 
     Ok(signature)
 }
