@@ -149,14 +149,6 @@ pub mod round2 {
         )?;
 
         // Compute the signature share.
-        // let signature_share = Secp256K1Sha256TR::compute_signature_share(
-        //     &GroupCommitment::<Secp256K1Sha256TR>::from_element(group_commitment.to_element()),
-        //     &signer_nonces,
-        //     binding_factor,
-        //     lambda_i,
-        //     &key_package,
-        //     challenge,
-        // );
         let signer_nonces = if group_commitment.has_even_y() {
             signer_nonces.clone()
         } else {
@@ -173,37 +165,6 @@ pub mod round2 {
     }
 }
 
-// /// Compute a signature share, negating if required by BIP340.
-// fn compute_signature_share(
-//     signer_nonces: &round1::SigningNonces,
-//     group_commitment: <Secp256K1Group as Group>::Element,
-//     lambda_i: <<Secp256K1Group as Group>::Field as Field>::Scalar,
-//     key_package: &frost::keys::KeyPackage<S>,
-//     challenge: Challenge<S>,
-//     sig_params: &SigningParameters,
-// ) -> round2::SignatureShare {
-//     let mut sn = signer_nonces.clone();
-//     if group_commitment.to_affine().y_is_odd().into() {
-//         sn.negate_nonces();
-//     }
-
-//     let mut kp = key_package.clone();
-//     let public_key = key_package.verifying_key();
-//     let pubkey_is_odd: bool = public_key.y_is_odd();
-//     let tweaked_pubkey_is_odd: bool =
-//         tweaked_public_key(public_key, sig_params.tapscript_merkle_root.as_ref())
-//             .to_affine()
-//             .y_is_odd()
-//             .into();
-//     if pubkey_is_odd != tweaked_pubkey_is_odd {
-//         kp.negate_signing_share();
-//     }
-
-//     let z_share = lambda_i * Secp256K1ScalarField::deserialize(&sn.hiding().serialize()).unwrap()
-//     + (lambda_i * kp.signing_share().to_scalar() * challenge.to_scalar());
-
-//     round2::SignatureShare::deserialize(Secp256K1ScalarField::serialize(&z_share)).unwrap()
-// }
 
 /// Aggregate the adaptor signature shares with the given adaptor point
 pub fn aggregate_with_adaptor_point(
