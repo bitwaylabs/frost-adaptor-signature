@@ -163,8 +163,9 @@ pub mod round2 {
             negate_nonces(&signer_nonces)
         };
 
-        let z_share = Secp256K1ScalarField::deserialize(signer_nonces.hiding().serialize()[..].try_into().unwrap()).unwrap()
-        + (lambda_i * key_package.signing_share().to_scalar() * challenge.to_scalar());
+        let hiding = signer_nonces.hiding().serialize();
+        let hiding_scalar = Secp256K1ScalarField::deserialize(hiding.as_slice().try_into().map_err(|_| frost_core::Error::DeserializationError)?)?;
+        let z_share = hiding_scalar + (lambda_i * key_package.signing_share().to_scalar() * challenge.to_scalar());
 
         round2::SignatureShare::deserialize(&Secp256K1ScalarField::serialize(&z_share)[..])
 
