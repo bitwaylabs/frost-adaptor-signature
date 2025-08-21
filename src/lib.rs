@@ -176,14 +176,11 @@ pub fn aggregate_with_adaptor_point(
     // Check if signing_package.signing_commitments and signature_shares have
     // the same set of identifiers, and if they are all in pubkeys.verifying_shares.
     if signing_package.signing_commitments().len() != signature_shares.len() {
-        return Err(Error::UnknownIdentifier);
+        return Err(Error::IncorrectNumberOfShares);
     }
 
     if !signing_package.signing_commitments().keys().all(|id| {
-        #[cfg(feature = "cheater-detection")]
         return signature_shares.contains_key(id) && pubkeys.verifying_shares().contains_key(id);
-        #[cfg(not(feature = "cheater-detection"))]
-        return signature_shares.contains_key(id);
     }) {
         return Err(Error::UnknownIdentifier);
     }
@@ -235,7 +232,7 @@ pub fn aggregate_with_group_commitment(
     // Check if signing_package.signing_commitments and signature_shares have
     // the same set of identifiers, and if they are all in pubkeys.verifying_shares.
     if signing_package.signing_commitments().len() != signature_shares.len() {
-        return Err(Error::UnknownIdentifier);
+        return Err(Error::IncorrectNumberOfShares);
     }
 
     if !signing_package.signing_commitments().keys().all(|id| {
